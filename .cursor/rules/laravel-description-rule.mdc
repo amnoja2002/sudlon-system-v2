@@ -1,0 +1,15 @@
+---
+description: >
+  🏗️ Project Stack Overview
+  This Laravel app uses:
+  - Blade → for templating and rendering task lists and layouts.
+  - Tailwind → for responsive, utility-first styling.
+  - Alpine.js → for lightweight, inline interactivity (modals, dropdowns).
+  - Livewire → for server-driven reactivity (tasks, forms, search, pagination).
+  - Responsive Design → must look and work great on mobile, tablet, and desktop.
+globs:
+  - "resources/views/**/*.blade.php"
+  - "resources/css/**/*.css"
+  - "app/Http/Livewire/**/*.php"
+alwaysApply: true
+---

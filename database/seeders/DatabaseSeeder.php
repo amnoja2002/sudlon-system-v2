@@ -52,5 +52,8 @@ class DatabaseSeeder extends Seeder
                 );
             }
         }
+
+        // Seed student management data
+        // $this->call(StudentManagementSeeder::class);
     }
 }

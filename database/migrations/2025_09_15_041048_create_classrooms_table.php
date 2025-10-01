@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('grade_level');
             $table->string('section');
             $table->text('description')->nullable();

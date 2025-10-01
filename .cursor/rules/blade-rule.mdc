@@ -1,0 +1,15 @@
+---
+description: >
+  🟦 Blade Rule
+  ✅ Do:
+    - Keep Blade focused on layout and rendering data.
+    - Use components, @include, and @foreach for clean markup.
+    - Store layouts in resources/views/layouts for reusability.
+    - Keep logic minimal (business logic in controllers/Livewire).
+  ❌ Don’t:
+    - Write heavy PHP in Blade.
+    - Mix business logic with presentation.
+globs:
+  - "resources/views/**/*.blade.php"
+alwaysApply: true
+---

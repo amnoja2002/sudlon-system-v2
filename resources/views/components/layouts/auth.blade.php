@@ -15,23 +15,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full font-sans text-gray-900 antialiased">
-    <!-- Government Header -->
-    <div class="bg-deped-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
-            <div class="flex justify-between text-xs">
-                <a href="https://www.gov.ph" class="hover:text-gold-300">GOVPH</a>
-                <a href="https://www.deped.gov.ph" class="hover:text-gold-300">Department of Education</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="min-h-[calc(100vh-40px)] flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+    <div class="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6">
+        <div class="w-full max-w-md px-4 sm:px-6 py-6 sm:py-8 bg-white shadow-lg overflow-hidden rounded-lg sm:rounded-xl">
             {{ $slot }}
         </div>
         
         <!-- Footer -->
-        <div class="w-full mt-8 px-4 py-2 text-center">
+        <div class="w-full max-w-md mt-6 sm:mt-8 px-4 py-2 text-center">
             <p class="text-xs text-gray-600">
                 © {{ date('Y') }} Department of Education - Division of Surigao del Sur. All rights reserved.
             </p>

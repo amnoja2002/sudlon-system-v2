@@ -28,19 +28,22 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
     
     // Principal Dashboard
-    Route::get('/principal/dashboard', \App\Livewire\PrincipalDashboard::class)
+    Route::get('/principal/dashboard', \App\Livewire\Roles\Principal\Dashboard::class)
         ->middleware('role:principal')
         ->name('principal.dashboard');
     
+    // Student Management
+    Route::get('/principal/students', \App\Livewire\StudentManagement::class)
+        ->middleware('role:principal')
+        ->name('principal.students');
+    
     // Teacher Dashboard
-    Route::get('/teacher/dashboard', \App\Livewire\TeacherDashboard::class)
+    Route::get('/teacher/dashboard', \App\Livewire\Roles\Teacher\Dashboard::class)
         ->middleware('role:teacher')
         ->name('teacher.dashboard');
     
     // Parent Dashboard
-    Route::get('/parent/dashboard', \App\Livewire\ParentDashboard::class)
-        ->middleware('role:parent')
-        ->name('parent.dashboard');
+    Volt::route('parent/dashboard', 'roles.parent.dashboard')->name('parent.dashboard');
     
     // Settings routes
     Route::redirect('settings', 'settings/profile');

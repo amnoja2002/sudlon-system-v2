@@ -73,10 +73,10 @@
             <flux:spacer />
 
             <flux:dropdown position="top" align="end">
-                <flux:profile
+                <!-- <flux:profile
                     :initials="auth()->user()->initials()"
                     icon-trailing="chevron-down"
-                />
+                /> -->
 
                 <flux:menu>
                     <flux:menu.radio.group>

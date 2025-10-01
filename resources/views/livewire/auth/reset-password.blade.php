@@ -68,7 +68,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 sm:gap-8">
+    <!-- Logo and Info -->
+    <div class="flex flex-col items-center text-center mb-4">
+        <img src="{{ asset('images/logo.jpg') }}" alt="DepEd Logo" class="h-12 w-auto mb-3 sm:h-14">
+        <h1 class="text-lg font-bold text-gray-800 sm:text-xl">{{ config('app.name') }}</h1>
+        <p class="text-xs text-gray-600 sm:text-sm">San Vicente, Surigao del Sur</p>
+    </div>
+
     <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
 
     <!-- Session Status -->
@@ -82,6 +89,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             type="email"
             required
             autocomplete="email"
+            class="w-full"
         />
 
         <!-- Password -->
@@ -93,6 +101,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             autocomplete="new-password"
             :placeholder="__('Password')"
             viewable
+            class="w-full"
         />
 
         <!-- Confirm Password -->
@@ -104,10 +113,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
             autocomplete="new-password"
             :placeholder="__('Confirm password')"
             viewable
+            class="w-full"
         />
 
         <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
+            <flux:button type="submit" variant="primary" class="w-full py-3 text-base font-medium">
                 {{ __('Reset password') }}
             </flux:button>
         </div>

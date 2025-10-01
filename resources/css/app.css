@@ -45,6 +45,9 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
+
+    /* Prevent Alpine x-cloak flash (modal flicker) before Alpine initializes */
+    [x-cloak] { display: none !important; }
 }
 
 [data-flux-field]:not(ui-radio, ui-checkbox) {

@@ -1,0 +1,42 @@
+---
+description: >
+  ⚙️ Service Provider Rule — Use Laravel service providers to register
+  and bootstrap application services.
+  ✅ Do:
+    - Use `php artisan make:provider CustomServiceProvider` to create one.
+    - Use `register()` to bind interfaces, singletons, or dependencies into the service container.
+    - Use `boot()` for tasks after registration: Blade directives, model observers, event listeners, or validation rules.
+    - Keep providers focused (e.g., PaymentServiceProvider, EventServiceProvider).
+    - Register custom providers in `bootstrap/app.php` (Laravel 11/12, not config/app.php).
+    - Group related logic (bindings, events, observers) into the same provider for clarity.
+  ❌ Don’t:
+    - Put business logic directly in service providers.
+    - Overstuff `AppServiceProvider` with unrelated bindings.
+    - Confuse providers with middleware (providers configure, middleware filters requests).
+Examples:
+  # Binding an interface to a class
+  public function register(): void
+  {
+      $this->app->bind(
+          \App\Contracts\PaymentGateway::class,
+          \App\Services\StripePaymentGateway::class
+      );
+  }
+
+  # Adding a custom Blade directive
+  public function boot(): void
+  {
+      \Blade::directive('datetime', function ($expression) {
+          return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
+      });
+  }
+
+  # Registering in bootstrap/app.php
+  ->withProviders([
+      App\Providers\CustomServiceProvider::class,
+  ])
+globs:
+  - "app/Providers/**/*.php"
+  - "bootstrap/app.php"
+alwaysApply: true
+---

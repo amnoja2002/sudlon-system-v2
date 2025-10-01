@@ -19,6 +19,7 @@ class ReportCard extends Model
         'remarks',
         'teacher_comments',
         'generated_by',
+        'scope',
         'generated_at',
         'is_active',
     ];

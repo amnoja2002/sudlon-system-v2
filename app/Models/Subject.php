@@ -14,6 +14,8 @@ class Subject extends Model
         'description',
         'teacher_id',
         'classroom_id',
+        'grade_level',
+        'section',
         'is_active',
     ];
 

@@ -112,13 +112,5 @@ class User extends Authenticatable
         return $this->hasMany(ReportCard::class, 'generated_by');
     }
 
-    public function accessRequests()
-    {
-        return $this->hasMany(ParentAccessRequest::class, 'parent_id');
-    }
-
-    public function subjectAccesses()
-    {
-        return $this->hasMany(ParentSubjectAccess::class, 'parent_id');
-    }
+    // Removed: accessRequests and subjectAccesses relationships (feature deprecated)
 }

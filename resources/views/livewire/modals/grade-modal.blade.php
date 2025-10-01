@@ -1,13 +1,14 @@
-<!-- Grade Modal -->
+<!-- Grade Modal this modal is for principal configuration  -->
+
 <div x-data="{ show: @entangle('showingGradeModal') }"
      x-show="show"
      x-cloak
      class="fixed inset-0 z-50 overflow-y-auto"
      x-transition>
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div x-show="show" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div x-show="show" class="fixed inset-0 bg-transparent"></div>
 
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div x-show="show" class="relative z-10 inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <form wire:submit.prevent="saveGrade">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">

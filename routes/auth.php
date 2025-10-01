@@ -11,6 +11,12 @@ Route::middleware('guest')->group(function () {
     Volt::route('register', 'auth.register')
         ->name('register');
 
+    Volt::route('email-verification', 'auth.email-verification')
+        ->name('auth.email-verification');
+
+    Volt::route('no-match', 'auth.no-match')
+        ->name('auth.no-match');
+
     Volt::route('forgot-password', 'auth.forgot-password')
         ->name('password.request');
 

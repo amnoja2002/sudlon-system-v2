@@ -1,0 +1,32 @@
+---
+description: >
+  🔒 Middleware Rule — When creating custom middleware in Laravel 11/12,
+  always register it in `bootstrap/app.php` instead of `Http/Kernel.php`
+  (Kernel was removed after Laravel 10).
+  ✅ Do:
+    - Create middleware with `php artisan make:middleware EnsureUserIsAdmin`.
+    - Add global middleware in `bootstrap/app.php` under `$middleware`.
+    - Add route middleware in `bootstrap/app.php` under `$middlewareAliases`.
+    - Use aliases for route groups (e.g., 'auth', 'verified', 'admin').
+    - Keep middleware small, focused, and composable.
+  ❌ Don’t:
+    - Try to edit `app/Http/Kernel.php` (does not exist in Laravel 11+).
+    - Register middleware in routes without aliasing if used often.
+    - Place business logic in middleware (keep it for request filtering).
+Examples:
+  # Registering middleware in bootstrap/app.php
+  ->withMiddleware(function (Middleware $middleware) {
+      $middleware->alias([
+        'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+      ]);
+  })
+
+  # Using middleware in routes
+  Route::middleware(['auth', 'admin'])->group(function () {
+      Route::get('/dashboard', DashboardController::class);
+  });
+globs:
+  - "app/Http/Middleware/**/*.php"
+  - "bootstrap/app.php"
+alwaysApply: true
+---

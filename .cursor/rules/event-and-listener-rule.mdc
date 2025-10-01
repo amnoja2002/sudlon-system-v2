@@ -1,0 +1,49 @@
+---
+description: >
+  📡 Events & Listeners Rule — Use Laravel events to signal "what happened"
+  in the app, and listeners to respond with side-effects.
+  ✅ Do:
+    - Create events with `php artisan make:event TaskCompleted`.
+    - Create listeners with `php artisan make:listener SendTaskCompletedNotification`.
+    - Keep events simple: just carry data (e.g., Task object).
+    - Put logic inside listeners (send emails, notifications, logs, API calls).
+    - Register events/listeners in `bootstrap/app.php` with `->withEvents()`.
+    - Use queued listeners for slow/heavy tasks (emails, API requests).
+    - Keep controllers & Livewire components thin by dispatching events.
+  ❌ Don’t:
+    - Put side-effect logic directly in controllers, models, or Livewire.
+    - Overload events with business logic (they are just "messages").
+    - Forget to register new events in Laravel 11/12 (`bootstrap/app.php`, not EventServiceProvider).
+Examples:
+  # Event
+  class TaskCompleted
+  {
+      public function __construct(public Task $task) {}
+  }
+
+  # Listener
+  class SendTaskCompletedNotification
+  {
+      public function handle(TaskCompleted $event)
+      {
+          Mail::to($event->task->user)
+              ->send(new TaskCompletedMail($event->task));
+      }
+  }
+
+  # Registering in bootstrap/app.php
+  ->withEvents([
+      TaskCompleted::class => [
+          SendTaskCompletedNotification::class,
+          UpdateTaskStats::class,
+      ],
+  ])
+
+  # Dispatching an event
+  event(new TaskCompleted($task));
+globs:
+  - "app/Events/**/*.php"
+  - "app/Listeners/**/*.php"
+  - "bootstrap/app.php"
+alwaysApply: true
+---

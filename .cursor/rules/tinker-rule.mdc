@@ -1,0 +1,34 @@
+---
+description: >
+  🌱 Factories & Seeders Rule — Use Laravel model factories and seeders to
+  generate test data for development, Tinker, and testing.
+  ✅ Do:
+    - Use model factories to create fake data quickly (e.g., Task::factory()->count(10)->create()).
+    - Store factories in database/factories and customize fields with Faker.
+    - Use seeders in database/seeders to populate required baseline data.
+    - Use DatabaseSeeder to combine multiple seeders for convenience.
+    - Run `php artisan db:seed` or `php artisan migrate:fresh --seed` to refresh test data.
+    - Use seeders for roles, permissions, demo users, or lookup tables.
+    - Use factories with PHPUnit/Pest tests for repeatable test setups.
+  ❌ Don’t:
+    - Hardcode large datasets in controllers or migrations.
+    - Manually insert test data in Tinker every time.
+    - Use production DB for experiments — keep this to dev/test only.
+Examples:
+  # Using a factory in Tinker
+  App\Models\Task::factory()->count(5)->create();
+
+  # Creating a user with override fields
+  App\Models\User::factory()->create([
+    'email' => 'test@example.com',
+    'is_admin' => true,
+  ]);
+
+  # Running seeders
+  php artisan db:seed --class=UserSeeder
+globs:
+  - "database/factories/**/*.php"
+  - "database/seeders/**/*.php"
+  - "app/Models/**/*.php"
+alwaysApply: true
+---

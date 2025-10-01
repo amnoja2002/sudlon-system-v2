@@ -1,0 +1,19 @@
+---
+description: >
+  📱 Responsive Design Rule
+  ✅ Do:
+    - Use Tailwind breakpoints (sm:, md:, lg:, xl:).
+    - Make buttons/inputs touch-friendly (min 44px height).
+    - Use w-full, max-w, object-cover for images; enable lazy loading.
+    - Keep navigation adaptive (hamburger on mobile, full nav on desktop).
+    - Use semantic HTML and ARIA roles for accessibility.
+    - Test in Chrome DevTools and real devices.
+  ❌ Don’t:
+    - Hardcode pixel widths.
+    - Hide important features on mobile.
+    - Ignore accessibility (contrast, keyboard nav).
+globs:
+  - "resources/views/**/*.blade.php"
+  - "resources/css/**/*.css"
+alwaysApply: true
+---

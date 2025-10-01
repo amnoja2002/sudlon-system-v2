@@ -1,0 +1,19 @@
+---
+description: >
+  ⚡ Alpine.js Rule
+  ✅ Do:
+    - Use x-data, x-show, @click, x-model for small UI interactions.
+    - Keep logic inline and minimal in Blade templates.
+    - Use Alpine for instant client-side changes (e.g., modals, dropdowns).
+  ❌ Don’t:
+    - Replace Livewire with Alpine for heavy data tasks.
+    - Write large JS blocks; keep Alpine lightweight.
+Example:
+  <div x-data="{ open: false }">
+    <button @click="open = !open">Toggle</button>
+    <div x-show="open">Hello!</div>
+  </div>
+globs:
+  - "resources/views/**/*.blade.php"
+alwaysApply: true
+---

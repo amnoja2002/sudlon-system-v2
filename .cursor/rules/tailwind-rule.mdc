@@ -1,0 +1,16 @@
+---
+description: >
+  🎨 Tailwind Rule
+  ✅ Do:
+    - Use responsive utilities (sm:, md:, lg:) for breakpoints.
+    - Prefer utility classes over custom CSS.
+    - Group classes logically (layout → spacing → colors → typography).
+    - Extract reusable components when markup repeats.
+  ❌ Don’t:
+    - Overuse inline <style> or custom CSS.
+    - Hardcode widths that break responsiveness.
+globs:
+  - "resources/css/**/*.css"
+  - "resources/views/**/*.blade.php"
+alwaysApply: true
+---

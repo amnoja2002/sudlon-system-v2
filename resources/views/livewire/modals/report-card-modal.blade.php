@@ -44,6 +44,20 @@
                         </div>
 
                         <div>
+                            <label class="block text-sm font-medium text-gray-700">Scope</label>
+                            <div class="mt-1 grid grid-cols-2 gap-2">
+                                <label class="inline-flex items-center space-x-2 border rounded-md p-2 cursor-pointer">
+                                    <input type="radio" value="mine" wire:model="reportScope">
+                                    <span class="text-sm">My subjects only</span>
+                                </label>
+                                <label class="inline-flex items-center space-x-2 border rounded-md p-2 cursor-pointer">
+                                    <input type="radio" value="all" wire:model="reportScope">
+                                    <span class="text-sm">All subjects (all teachers)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">School Year</label>
                             <input type="text" 
                                    wire:model="reportCardData.school_year"
@@ -82,17 +96,19 @@
                             @php
                                 $student = \App\Models\Student::find($reportCardData['student_id']);
                                 $classroom = \App\Models\Classroom::find($reportCardData['classroom_id']);
-                                
-                                // Get all subjects for this teacher in the same grade level and section
-                                $subjects = \App\Models\Subject::where('teacher_id', auth()->id())
-                                    ->whereHas('classroom', function($query) use ($classroom) {
+
+                                // Build subject list honoring scope (mine | all)
+                                $subjectsQuery = \App\Models\Subject::whereHas('classroom', function($query) use ($classroom) {
                                         $query->where('grade_level', $classroom->grade_level)
                                               ->where('section', $classroom->section)
                                               ->where('is_active', true);
                                     })
-                                    ->where('is_active', true)
-                                    ->get();
-                                    
+                                    ->where('is_active', true);
+                                if (($reportScope ?? 'mine') === 'mine') {
+                                    $subjectsQuery->where('teacher_id', auth()->id());
+                                }
+                                $subjects = $subjectsQuery->get();
+
                                 $totalScore = 0;
                                 $subjectCount = 0;
                             @endphp
@@ -120,8 +136,30 @@
                                     <tbody>
                                         @foreach($subjects as $subject)
                                         @php
-                                            $grades = $subject->grades()->where('student_id', $reportCardData['student_id'])->get();
-                                            $grade = $grades->count() > 0 ? round($grades->avg('score')) : 0;
+                                            // Map to the student record in the subject's classroom by name if needed
+                                            $targetStudentId = $reportCardData['student_id'];
+                                            if ($subject->classroom_id !== $classroom->id) {
+                                                $targetStudentId = \App\Models\Student::where('classroom_id', $subject->classroom_id)
+                                                    ->where('name', $student->name)
+                                                    ->where('is_active', true)
+                                                    ->value('id');
+                                            }
+
+                                            $grade = 0;
+                                            if ($targetStudentId) {
+                                                // Support subject_id and legacy subject name
+                                                $grades = \App\Models\Grade::where('student_id', $targetStudentId)
+                                                    ->where('is_active', true)
+                                                    ->where(function($q) use ($subject) {
+                                                        $q->where('subject_id', $subject->id)
+                                                          ->orWhere('subject', $subject->name);
+                                                    })
+                                                    ->get();
+                                                if ($grades->count() > 0) {
+                                                    $grade = round($grades->avg('score'));
+                                                }
+                                            }
+
                                             $totalScore += $grade;
                                             $subjectCount++;
                                         @endphp
@@ -148,10 +186,11 @@
                             <div class="mt-6 text-center">
                                 <p class="text-sm text-gray-600 mb-4">This report card is generated on {{ now()->format('F d, Y') }}</p>
                                 <div class="flex justify-between items-end">
-                                    <div class="text-center">
-                                        <p class="text-sm font-semibold text-gray-800">Class Adviser</p>
-                                        <p class="text-sm text-gray-600">{{ auth()->user()->name }}</p>
-                                    </div>
+                                <div class="text-center">
+                                    <p class="text-sm font-semibold text-gray-800">Class Adviser</p>
+                                    <p class="text-sm text-gray-600">{{ auth()->user()->name }}</p>
+                                    <p class="text-xs text-gray-500 mt-1">Scope: {{ ($reportScope ?? 'mine') === 'mine' ? 'My subjects' : 'All subjects' }}</p>
+                                </div>
                                     <div class="text-center">
                                         <p class="text-sm font-semibold text-gray-800">Principal</p>
                                         <p class="text-sm text-gray-600">School Principal</p>

@@ -1,0 +1,24 @@
+---
+description: >
+  🔴 Livewire Rule
+  ✅ Do:
+    - Use for forms, real-time validation, search, pagination, task updates.
+    - Keep components in app/Http/Livewire with clear, descriptive names.
+    - Use Blade views in resources/views/livewire for UI pieces.
+    - Let Livewire handle AJAX under the hood; avoid custom JS for this.
+  ❌ Don’t:
+    - Put presentation logic in PHP classes (keep them for state/data).
+    - Duplicate features in Alpine that Livewire already handles better.
+Example:
+  class TaskList extends \Livewire\Component {
+      public $tasks;
+      public function render() {
+          $this->tasks = Task::latest()->get();
+          return view('livewire.task-list');
+      }
+  }
+globs:
+  - "app/Http/Livewire/**/*.php"
+  - "resources/views/livewire/**/*.blade.php"
+alwaysApply: true
+---

@@ -1,3 +1,5 @@
+{{-- this the landing page navigation --}}
+
 <header class="sticky top-0 z-50 bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-6">
         <div class="flex items-center justify-between h-20">
@@ -16,21 +18,26 @@
 
             <!-- Nav -->
             <nav class="hidden md:flex items-center gap-8">
-                <a href="{{ route('home') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">Home</a>
-                <a href="{{ route('about') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">About</a>
-                <a href="{{ route('news') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">News</a>
-                <a href="{{ route('contact') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">Contact</a>
+                @if(auth()->check() && auth()->user()->role?->slug === 'principal')
+                    <a href="{{ route('principal.dashboard') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">Dashboard</a>
+                    <a href="{{ route('principal.students') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">Student Management</a>
+                @else
+                    <a href="{{ route('home') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">Home</a>
+                    <a href="{{ route('about') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">About</a>
+                    <a href="{{ route('news') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">News</a>
+                    <a href="{{ route('contact') }}" class="text-gray-800 hover:text-deped-600 font-medium transition-colors">Contact</a>
+                @endif
             </nav>
 
             <!-- Actions -->
             <div class="flex items-center gap-3">
                 <!-- Login/Profile Section -->
                 @if(auth()->check())
-                    <!-- Profile Dropdown -->
-                    <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" 
-                                class="flex items-center gap-2 text-gray-700 hover:text-deped-600 focus:outline-none"
-                                aria-expanded="false">
+                    <!-- Profile Dropdown (hidden on mobile; moved to mobile menu) -->
+                    <div class="relative hidden md:block" x-data="{ open: false }">
+                        <button @click="open = !open"
+                                :aria-expanded="open.toString()"
+                                class="flex items-center gap-2 text-gray-700 hover:text-deped-600 focus:outline-none">
                             <span class="hidden sm:inline-block font-medium">{{ Auth::user()->name }}</span>
                             <img src="{{ auth()->user()->profile_photo_url() }}" 
                                  alt="{{ Auth::user()->name }}" 
@@ -41,8 +48,9 @@
                         </button>
 
                         <!-- Dropdown Menu -->
-                        <div x-show="open" 
+                        <div x-show="open" x-cloak
                              @click.away="open = false"
+                             @keydown.escape.window="open = false"
                              x-transition:enter="transition ease-out duration-100"
                              x-transition:enter-start="transform opacity-0 scale-95"
                              x-transition:enter-end="transform opacity-100 scale-100"
@@ -57,16 +65,6 @@
                                 <a href="{{ route('principal.dashboard') }}" 
                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-deped-50">
                                     Principal Dashboard
-                                </a>
-                            @elseif(auth()->user()->role?->slug === 'teacher')
-                                <a href="{{ route('teacher.dashboard') }}" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-deped-50">
-                                    Teacher Dashboard
-                                </a>
-                            @elseif(auth()->user()->role?->slug === 'parent')
-                                <a href="{{ route('parent.dashboard') }}" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-deped-50">
-                                    Parent Dashboard
                                 </a>
                             @endif
 
@@ -94,7 +92,7 @@
                     </div>
                 @else
                     <!-- Login Button for Guests -->
-                    <div class="flex items-center">
+                    <div class="hidden md:flex items-center">
                         <a href="{{ route('login') }}" 
                            class="inline-flex items-center gap-2 bg-deped-600 hover:bg-deped-700 text-black px-4 py-2 font-semibold rounded-lg transition-all duration-150 hover:scale-105 active:scale-95">
                             <span class="hidden sm:inline">Portal Login</span>
@@ -117,12 +115,27 @@
         <!-- Mobile Menu Content -->
         <div class="md:hidden absolute inset-x-0 top-full bg-white border-gray-100 shadow-lg transition-all duration-200 ease-in-out {{ $isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible' }}">
             <div class="px-4 py-3 space-y-1">
-                <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Home</a>
-                <a href="{{ route('about') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">About</a>
-                <a href="{{ route('news') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">News</a>
-                <a href="{{ route('contact') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Contact</a>
+                @if(auth()->check() && auth()->user()->role?->slug === 'principal')
+                    <a href="{{ route('principal.dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Dashboard</a>
+                    <a href="{{ route('principal.students') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Student Management</a>
+                @else
+                    <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Home</a>
+                    <a href="{{ route('about') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">About</a>
+                    <a href="{{ route('news') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">News</a>
+                    <a href="{{ route('contact') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Contact</a>
+                @endif
 
-                @if(!auth()->check())
+                @if(auth()->check())
+
+                    <div class="mt-4 pt-4 border-t border-black space-y-1">
+                        <a href="{{ route('settings.profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Profile Settings</a>
+                        <a href="{{ route('settings.password') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Change Password</a>
+                        <form method="POST" action="{{ route('logout') }}" class="px-4">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-0 py-2 text-red-600 hover:bg-red-50 rounded-lg">Sign Out</button>
+                        </form>
+                    </div>
+                @else
                     <div class="mt-4 pt-4 border-t border-black">
                         <a href="{{ route('login') }}" 
                            class="flex items-center justify-center gap-2 bg-deped-600 hover:bg-deped-700 text-black px-4 py-2 font-semibold rounded-lg transition-all duration-150">

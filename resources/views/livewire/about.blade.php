@@ -135,4 +135,17 @@
             </div>
         </div>
     </div>
+
+    <!-- Floating Dashboard Button for Logged-in Users -->
+    @if(auth()->check())
+        <div class="fixed bottom-6 right-6 z-50">
+            <a href="{{ route('dashboard') }}" 
+                class="bg-white border border-black text-black px-6 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 text-right"
+                wire:navigate>
+                <span class="font-semibold text-sm">
+                    Back to Dashboard
+                </span>
+            </a>
+        </div>
+    @endif
 </div>
